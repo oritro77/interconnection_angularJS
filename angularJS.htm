@@ -1,115 +1,57 @@
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js" type="text/javascript"></script>
+<head>
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js" type="text/javascript"></script>
+</head>
 <body ng-app="myApp">
 
-<!--<p><a href="#/">Main</a></p>-->
-<h3>Below are two links which are ui routes and also controllers which pass data between the two controllers from input fields</h3>
-<a href="#!dhaka">Dhaka</a>
-<a href="#!chittagong">Chittagong</a>
+<div class="container">
+	<div class = "row text-center">
+		<!--<p><a href="#/">Main</a></p>-->
+		
+		<h3>Below are two links which are ui routes and also controllers which pass data between the two controllers from input fields</h3>
+		<ul class="list-group">
+			<li class="list-group-item"><a href="#!dhaka">Dhaka</a></li>
+			<li class="list-group-item"><a href="#!chittagong">Chittagong</a></li>
+		</ul>
 
-<p>Click on the links.</p>
+	</div>
+	<div class = "row text-center">
+		<!--view for ui route and route controllers to pass data-->
+		<div ng-view></div>
+	</div>
+	<div class = "row text-center">
+		<!--view for filter-->
+		<div ng-controller="namesCtrl">
 
-<!--view for ui route and route controllers to pass data-->
-<div ng-view></div>
+			<p>Filtering the names and ordering them by name</p>
+			<ul class="list-group">
+			  <li class="list-group-item" ng-repeat="x in names | orderBy:'name'">
+				{{ x.name + ', ' + x.id }}
+			  </li>
+			</ul>
 
-<!--view for filter-->
-<div ng-controller="namesCtrl">
+		</div>
+	</div>	
+	<div class = "row text-center">
 
-	<p>Filtering the names and ordering them by name</p>
-	<ul>
-	  <li ng-repeat="x in names | orderBy:'name'">
-		{{ x.name + ', ' + x.id }}
-	  </li>
-	</ul>
-
+		<!--new directive to dependent on ng-model which restricts user input to numbers-->
+		<input-only-key-press></input-only-key-press>
+	</div>
 </div>
-
-
-<!--new directive to dependent on ng-model which restricts user input to numbers-->
-<input-only-key-press></input-only-key-press>
-
 <script>
 
 var app = angular.module("myApp", ["ngRoute"]);
-//routes
-app.config(function($routeProvider) {
-    $routeProvider
-    /*.when("/", {
-        templateUrl : "angularJS.htm"
-    })*/
-    .when("/dhaka", {
-        templateUrl : "link1.htm",
-        controller : "dhakaCtrl"
-    })
-    .when("/chittagong", {
-        templateUrl : "link2.htm",
-        controller : "chittagongCtrl"
-    });
-});
-//service for the controllers to pass data
-app.service('sharedProperties', function() {
-    var firstname='ari';
-	var birthplace='dha';
-    
-    return {
-        getFirstName: function() {
-			console.log(firstname);
-            return firstname;
-        },
-		getBirthPlace: function() {
-			console.log(birthplace);
-            return birthplace;
-        },
-        setBirthPlace: function(value) {
-            birthplace = value;
-			console.log(birthplace);
-        },
-		setFirstName: function(value){
-			firstname = value;
-			console.log(firstname);
-		},
-		
-        getObject: function() {
-            return objectValue;
-        }
-    }
-});
 
-//contorllers that change routes and pass data between each other
-app.controller("dhakaCtrl", function ($scope, sharedProperties) {
-    $scope.msg = "I love Bangladesh";
-	$scope.firstname = sharedProperties.getFirstName();
-	$scope.setBirthPlace = function(newValue) {
-        sharedProperties.setBirthPlace(newValue);
-    };
-	
-});
-app.controller("chittagongCtrl", function ($scope, sharedProperties) {
-    $scope.msg = "I love Bangladesh";
-	$scope.birthplace = sharedProperties.getBirthPlace();
-	$scope.setFirstName = function(newValue) {
-		console.log(newValue);
-        sharedProperties.setFirstName(newValue);
-    };
-});
-//controller which filter and order by name
-app.controller("namesCtrl", function ($scope) {
-	$scope.names = [{id: 3, name: "rahaman"},
-					{id: 1, name: "bashar"},
-					{id: 2, name: "anwar"}]; 
- 
-});
-
-//new directive which restricts only number input from the user
-app.directive("inputOnlyKeyPress", function() {
-    return {
-        template : "<label>Input Number: </label><input type=\"number\"  ng-model=\"myText\" name=\"inputName\">"
-    };
-});
 </script>
-
+<script src = "routes.js" type="text/javascript"></script>
+<script src = "controllers.js" type="text/javascript"></script>
+<script src = "directives.js" type="text/javascript"></script>
 </body>
 </html>
