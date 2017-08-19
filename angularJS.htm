@@ -15,23 +15,29 @@
 
 <p>Note that each "view" has its own controller which each gives the "msg" variable a value.</p>
 
-<!--view for ui route-->
+<!--view for ui route and route controllers to pass data-->
 <div ng-view></div>
 
 <!--view for filter-->
 <div ng-controller="namesCtrl">
 
-<p>Filtering the names and ordering them by name</p>
-<ul>
-  <li ng-repeat="x in names | orderBy:'name'">
-    {{ x.name + ', ' + x.id }}
-  </li>
-</ul>
+	<p>Filtering the names and ordering them by name</p>
+	<ul>
+	  <li ng-repeat="x in names | orderBy:'name'">
+		{{ x.name + ', ' + x.id }}
+	  </li>
+	</ul>
 
 </div>
 
+
+<!--new directive to dependent on ng-model which restricts user input to numbers-->
+<input-only-key-press></input-only-key-press>
+
 <script>
+
 var app = angular.module("myApp", ["ngRoute"]);
+//routes
 app.config(function($routeProvider) {
     $routeProvider
     /*.when("/", {
@@ -46,7 +52,7 @@ app.config(function($routeProvider) {
         controller : "chittagongCtrl"
     });
 });
-
+//service for the controllers to pass data
 app.service('sharedProperties', function() {
     var firstname='ari';
 	var birthplace='dha';
@@ -75,7 +81,7 @@ app.service('sharedProperties', function() {
     }
 });
 
-
+//contorllers that change routes and pass data between each other
 app.controller("dhakaCtrl", function ($scope, sharedProperties) {
     $scope.msg = "I love Bangladesh";
 	$scope.firstname = sharedProperties.getFirstName();
@@ -92,12 +98,19 @@ app.controller("chittagongCtrl", function ($scope, sharedProperties) {
         sharedProperties.setFirstName(newValue);
     };
 });
-
+//controller which filter and order by name
 app.controller("namesCtrl", function ($scope) {
 	$scope.names = [{id: 3, name: "rahaman"},
 					{id: 1, name: "bashar"},
 					{id: 2, name: "anwar"}]; 
  
+});
+
+//new directive which restricts only number input from the user
+app.directive("inputOnlyKeyPress", function() {
+    return {
+        template : "<label>Input Number: </label><input type=\"number\"  ng-model=\"myText\" name=\"inputName\">"
+    };
 });
 </script>
 
