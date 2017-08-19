@@ -1,17 +1,17 @@
-<div class = "row text-center">
+<div class = "row">
 	<h1>Chittagong</h1>
 </div>
-<div class = "row text-center">	
+<div >	
 	<h3>Chittagong is one of the beautiful city of Bangladesh</h3>
 </div>
-<div class = "row text-center">	
+<div >	
 	<p>Chittagong one of the major city of Bangladesh. It is also one of the most beautiful city.</p>
 	<p>{{msg}}</p>
 	<p>Birthplace: {{birthplace}}</p>
 </div>	
 <div class = "row text-center form-group" ng-controller="chittagongCtrl">
-	<form class="form-control" ng-click="setFirstName(newValue)">
+	<form class="form-inline" ng-click="setFirstName(newValue)">
 		<label>Change FirstName: </label><input class="form-control" ng-model="newValue">
-		<input type="submit" value="Set Values">
+		<input type="submit" class="btn btn-default" value="Set Values">
 	</form>
 </div>
